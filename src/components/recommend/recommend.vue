@@ -25,7 +25,7 @@ export default {
 	this.$http.get('/ak/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg', {
 			params: {
 				g_tk:1388211379,
-				uin:352055819,
+				uin:352055819,                  
 				format:'json',
 				inCharset:'utf-8',
 				outCharset:'utf-8',

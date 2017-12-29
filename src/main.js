@@ -4,7 +4,7 @@ import App from './App'
 import router from './router'
 import fastclick from 'fastclick'
 import http from 'api/http'
-import 'common/stylus/index.styl'
+import 'common/stylus/index.less'
 fastclick.attach(document.body)
 Vue.config.productionTip = false
 Vue.use(http)
