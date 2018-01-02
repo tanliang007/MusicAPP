@@ -21,7 +21,7 @@ export default {
 			recommends:''
 		}
 	},
-	created () {
+	created () {//提供轮播的数据
 	this.$http.get('/ak/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg', {
 			params: {
 				g_tk:1388211379,

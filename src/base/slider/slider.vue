@@ -14,9 +14,10 @@
 import BScroll from 'better-scroll'
 import {addClass} from 'common/js/dom'
 export default {
+	name:'slide',
 	data () {
 		return {
-		dots:[ ],
+		dots:[],
 		currentPageIndex:0 	
 		}
 	},
@@ -31,18 +32,17 @@ export default {
 		},
 		interval:{
 			type:Number,
-			default:2000
+			default:1000
 		}
 	},
-	mounted () {	
+	mounted () {
+		
 		setTimeout(()=>{
 			this._setSliderWidth()
 			this._initDots()
 			this._initSlider( )
-			if(this.autoplay){
-				this._play()
-			}
-
+			this._play()
+			// console.log(this.slider.getCurrentPage().pageX)	
 		},20)
 	},
 	methods: {
@@ -70,42 +70,42 @@ export default {
 				scrollX: true,
 				scrollY: false,
 				momentum: false,
-				snap: {
-            loop: this.loop,
-            threshold: 0.3,
-            speed: 300
-				},
-				bounce: false,
-				click:true
+				snap: {loop: true,threshold: 0.3,speed: 1000},
+				click:true,
+				   bounce: false
 			})
-			this.slider.on('scrollEnd',()=>{	
-				 var pageIndex = this.slider.getCurrentPage().pageX
-				//  console.log(pageIndex)
-				 if(this.loop){//如果是循环的
-					
-				 }
-				 this.currentPageIndex = pageIndex
-				  if(this.autoplay) {//自动轮播
-          	this._play();
+			
+		this.slider.on('scrollEnd', this._onScrollEnd)
+		
+        this.slider.on('flick', () => {
+			console.log('flick')
+			 this.slider.stop()
+        })
+        this.slider.on('touchend', () => {
+          if (this.autoPlay) {
+            this._play()
           }
-			 })
-			this.slider.on('beforeScrollStart', () => {
-					if(this.autoPlay){
-						console.log(111)
-						clearTimeout(this.timer);
-					}
-      }) 
+        })
+        this.slider.on('beforeScrollStart', () => {
+        
+            clearTimeout(this.timer)
+          
+        })
 		},
-		_play(){
-			let pageIndex = this.currentPageIndex;
-			if(this.loop){
-				
-			}
-			this.timer = setTimeout(()=>{
-				//切换下一页
-				this.slider.next()
-			},this.interval)
-		}
+	 _onScrollEnd() {//滚动结束一屏的回调函数
+		let pageIndex = this.slider.getCurrentPage().pageX
+		console.log('滚动事件结束')
+        this.currentPageIndex = pageIndex
+        this._play()
+      },
+	_play() {//切换到下一页	
+		clearTimeout(this.timer)
+		this.timer = setTimeout(() => {
+			console.log(1)
+			this.slider.next()
+			console.log(this.slider.getCurrentPage().pageX)
+		}, this.interval)
+      }
 	}
 	
 }
@@ -151,10 +151,10 @@ export default {
 		background: rgba(255, 255, 255, 0.5);
 		border-radius: 50%;
 		&.active {
-    width: 20px;
+    	width: 20px;
 		border-radius: 5px;
 		background: hsla(197, 80%, 63%, 0.8);
-  }
+  		}
 	}
 	
 }
